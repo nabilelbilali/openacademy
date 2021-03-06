@@ -1,0 +1,56 @@
+<odoo>
+
+    <record id="report_course" model="ir.actions.report">
+        <field name="name">course Report</field>
+        <field name="model">openacademy.course</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">openacademy.report_course_view</field>
+        <field name="report_file">openacademy.report_course</field>
+        <field name="binding_type">report</field>
+    </record>
+<template id="report_course_view">
+
+       <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                        <h1>Invoice</h1>
+                        <span  t-field="doc.name"/>
+
+                        <h3>invoice Date:</h3>
+                        <span t-esc="doc.description"> </span>
+                        <span t-esc="doc.price"> </span>
+                    <table class="table table-sm o_main_table" name="invoice_line_table">
+
+                           <ul>
+                           <thead>
+                               <tr>
+                                    <th name="openacademy.course.session_ids.name" class="text-left"><span>session name</span></th>
+                                    <th name="openacademy.course.price" class="text-right"><span>Unit price</span></th>
+                               </tr>
+                          </thead>
+
+                        </ul>
+
+                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                            <t t-foreach="docs.session_ids" t-as="s">
+                        <ul>
+                           <thead>
+                               <tr>
+                                   <td name="openacademy.course.session_ids.name" class="text-left"><span t-esc="s.name"></span></td>
+                                   <td name="openacademy.course.price" class="text-right"><span t-esc="s.price"></span></td>
+                               </tr>
+                           </thead>
+
+                        </ul>
+                            </t>
+                        </table>
+                        <th name="openacademy.course.price" class="text-right"><span>Total price</span></th>
+                        <td name="openacademy.course.price" class="text-right"><span  t-esc="doc.price"></span></td>
+                </t>
+
+            </t>
+        </t>
+
+    </template>
+
+</odoo>
